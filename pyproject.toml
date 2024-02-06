@@ -8,10 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
 flask = "^3.0.2"
+jinja-partials = "^0.2.0"
+flask-htmx = "^0.3.2"
 
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
+pytailwindcss = "^0.2.0"
 
 
 [tool.poe.tasks]
@@ -23,6 +26,8 @@ fmt = [
     { cmd = "ruff check --fix ." },
     { cmd = "ruff format ." }
 ]
+css-watch = "tailwindcss --output ./app/static/css/index.css --watch --minify"
+css-build = "tailwindcss --output ./app/static/css/index.css --minify"
 
 [tool.poe.tasks.dev]
 cmd = "flask run"

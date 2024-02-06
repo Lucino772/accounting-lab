@@ -60,6 +60,20 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-htmx"
+version = "0.3.2"
+description = "A Flask extension to work with HTMX."
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "flask_htmx-0.3.2-py3-none-any.whl", hash = "sha256:a1e0071216349197d6669662c2c35a1ab849b6fca28c89dc90932761f7e73c05"},
+    {file = "flask_htmx-0.3.2.tar.gz", hash = "sha256:8def77bb292369ff77513ff7b76d27b06f83e1d8c21165b6714c06c1cc2b9275"},
+]
+
+[package.dependencies]
+Flask = ">=2.0.2,<4.0.0"
+
+[[package]]
 name = "importlib-metadata"
 version = "7.0.1"
 description = "Read metadata from Python packages"
@@ -88,6 +102,20 @@ files = [
     {file = "itsdangerous-2.1.2-py3-none-any.whl", hash = "sha256:2c2349112351b88699d8d4b6b075022c0808887cb7ad10069318a8b0bc88db44"},
     {file = "itsdangerous-2.1.2.tar.gz", hash = "sha256:5dbbc68b317e5e42f327f9021763545dc3fc3bfe22e6deb96aaf1fc38874156a"},
 ]
+
+[[package]]
+name = "jinja-partials"
+version = "0.2.0"
+description = "Simple reuse of partial HTML page templates in the Jinja template language for Python web frameworks."
+optional = false
+python-versions = "*"
+files = [
+    {file = "jinja_partials-0.2.0-py3-none-any.whl", hash = "sha256:a83ab16c02a03412eb6b5a49345900fb56ad666fad11d3be7fff09dbf9ecf8f3"},
+    {file = "jinja_partials-0.2.0.tar.gz", hash = "sha256:ada44c441fe175d0a5d5f594b5f4c3301a1d5974d212e83031fbd8886785dd69"},
+]
+
+[package.dependencies]
+jinja2 = "*"
 
 [[package]]
 name = "jinja2"
@@ -176,6 +204,17 @@ files = [
 ]
 
 [[package]]
+name = "pytailwindcss"
+version = "0.2.0"
+description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pytailwindcss-0.2.0-py3-none-any.whl", hash = "sha256:30e7bd3b78de19a39a7e66329db02d393ee540f010924397b4d780e85041fae4"},
+    {file = "pytailwindcss-0.2.0.tar.gz", hash = "sha256:112718583a33f42c57b2718270dd0e0605574da0023cab4829fad3a98ebe450b"},
+]
+
+[[package]]
 name = "ruff"
 version = "0.2.1"
 description = "An extremely fast Python linter and code formatter, written in Rust."
@@ -236,4 +275,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "939e326562f89a02a4b487c0460098577af107dbb74d3c29db6342f5d0d0b8e2"
+content-hash = "2bad14899a7099a78d3e55f3cef27234dc877e599b3fcc31f35048afb7541384"
