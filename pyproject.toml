@@ -17,6 +17,9 @@ ruff = "^0.2.1"
 pytailwindcss = "^0.2.0"
 
 
+[tool.ruff.lint]
+extend-select = ["E", "F", "I"]
+
 [tool.poe.tasks]
 fmt-check = [
     { cmd = "ruff check --no-fix ." },

@@ -1,5 +1,6 @@
-from flask import Flask
 import jinja_partials
+from flask import Flask
+
 from app.extensions import htmx
 
 
