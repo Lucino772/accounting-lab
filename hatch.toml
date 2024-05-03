@@ -1,0 +1,25 @@
+[env]
+requires = ["hatch-pip-compile"]
+
+[envs.default]
+type = "pip-compile"
+pip-compile-resolver = "uv"
+pip-compile-installer = "uv"
+python = "3.11"
+skip-install = true
+dependencies = [
+  "flask==3.0.3",
+  "jinja-partials==0.1.1",
+  "flask-htmx==0.3.2",
+  "flask-sqlalchemy==3.1.1",
+  "flask-migrate==4.0.7",
+  "pytailwindcss==0.2.0"
+]
+
+[envs.default.scripts]
+css-watch = "tailwindcss --output ./app/static/css/index.css --watch --minify"
+css-build = "tailwindcss --output ./app/static/css/index.css --minify"
+
+[envs.hatch-static-analysis]
+python = "3.11"
+config-path = "ruff_defaults.toml"
