@@ -1,16 +1,26 @@
+import secrets
+
 import jinja_partials
-from flask import Flask, render_template
+from flask import Flask
 
-from app.extensions import htmx
-
-
-def index():
-    return render_template("index.html")
+from app.controllers.ledger import blueprint as ledger_blueprint
+from app.extensions import db, htmx, migrate
 
 
 def create_app():
     app = Flask(__name__)
     jinja_partials.register_extensions(app)
+
+    # Config
+    app.secret_key = secrets.token_hex()
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+
+    # Init Extensions
     htmx.init_app(app)
-    app.add_url_rule("/", view_func=index)
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    # Register Blueprints
+    app.register_blueprint(ledger_blueprint, url_prefix="/ledger")
+
     return app
