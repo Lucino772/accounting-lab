@@ -13,7 +13,8 @@ dependencies = [
   "flask-htmx==0.3.2",
   "flask-sqlalchemy==3.1.1",
   "flask-migrate==4.0.7",
-  "pytailwindcss==0.2.0"
+  "pytailwindcss==0.2.0",
+  "flask-wtf==1.2.1"
 ]
 
 [envs.default.scripts]
