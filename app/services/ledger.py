@@ -1,7 +1,7 @@
 import datetime as dt
 import decimal
 
-from app.models.ledger import LedgerEntry, LedgerEntryItem
+from app.models.ledger import LedgerAccount, LedgerEntry, LedgerEntryItem
 
 
 class LedgerEntryBuilder:
@@ -9,7 +9,7 @@ class LedgerEntryBuilder:
         self.__date = date
         self.__items: list[LedgerEntryItem] = []
 
-    def add_debit(self, account: str, amount: decimal.Decimal) -> None:
+    def add_debit(self, account: LedgerAccount, amount: decimal.Decimal) -> None:
         self.__items.append(
             LedgerEntryItem(
                 date=self.__date,
@@ -19,7 +19,7 @@ class LedgerEntryBuilder:
             )
         )
 
-    def add_credit(self, account: str, amount: decimal.Decimal) -> None:
+    def add_credit(self, account: LedgerAccount, amount: decimal.Decimal) -> None:
         self.__items.append(
             LedgerEntryItem(
                 date=self.__date,

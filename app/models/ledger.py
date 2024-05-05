@@ -2,7 +2,7 @@ import decimal
 import enum
 
 from sqlalchemy import ForeignKeyConstraint
-from sqlalchemy.orm import Mapped, column_property, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 from app.models.types import datetime_tz, intpk
@@ -62,13 +62,18 @@ class LedgerEntryItem(Base):
     id: Mapped[intpk]  # noqa: A003
     date: Mapped[datetime_tz]
     account_id: Mapped[int]
-    type: Mapped[Type] = mapped_column()  # noqa: A003
+    type: Mapped[Type]  # noqa: A003
     amount: Mapped[decimal.Decimal]
     entry_id: Mapped[int]
-
-    is_debit: Mapped[bool] = column_property(type == Type.DEBIT)
-    is_credit: Mapped[bool] = column_property(type == Type.CREDIT)
 
     # Relationshipts
     account: Mapped[LedgerAccount] = relationship(back_populates="items")
     entry: Mapped[LedgerEntry] = relationship(back_populates="items")
+
+    @property
+    def is_debit(self) -> bool:
+        return self.type == self.Type.DEBIT
+
+    @property
+    def is_credit(self) -> bool:
+        return self.type == self.Type.CREDIT
