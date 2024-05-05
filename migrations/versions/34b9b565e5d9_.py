@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6275213f9cd3
+Revision ID: 34b9b565e5d9
 Revises: 
-Create Date: 2024-05-04 01:59:10.744968
+Create Date: 2024-05-05 23:07:18.614431
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6275213f9cd3'
+revision = '34b9b565e5d9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('ledger_entry',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('date', sa.DateTime(timezone=True), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id', name=op.f('pk__ledger_entry'))
     )
     op.create_table('ledger_entry_item',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -30,8 +30,8 @@ def upgrade():
     sa.Column('type', sa.Enum('DEBIT', 'CREDIT', name='type'), nullable=False),
     sa.Column('amount', sa.Numeric(), nullable=False),
     sa.Column('entry_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['entry_id'], ['ledger_entry.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.ForeignKeyConstraint(['entry_id'], ['ledger_entry.id'], name=op.f('fk__ledger_entry_item__entry_id__ledger_entry')),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk__ledger_entry_item'))
     )
     # ### end Alembic commands ###
 
