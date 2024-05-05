@@ -20,10 +20,20 @@ class LedgerAccount(Base):
     # Columns
     id: Mapped[intpk]  # noqa: A003
     account: Mapped[str] = mapped_column(unique=True)
+    label: Mapped[str]
     type: Mapped[Type]  # noqa: A003
 
     # Relationships
     items: Mapped[list["LedgerEntryItem"]] = relationship(back_populates="account")
+
+    @property
+    def type_as_string(self) -> str:
+        return {
+            self.Type.ASSET: "Asset",
+            self.Type.LIABILITY: "Liability",
+            self.Type.REVENUE: "Revenue",
+            self.Type.EXPENSE: "Expense",
+        }[self.type]
 
 
 class LedgerEntry(Base):
