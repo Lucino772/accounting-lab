@@ -1,5 +1,6 @@
 import decimal
 import enum
+from typing import Literal
 
 from sqlalchemy import ForeignKeyConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -34,6 +35,17 @@ class LedgerAccount(Base):
             self.Type.REVENUE: "Revenue",
             self.Type.EXPENSE: "Expense",
         }[self.type]
+
+    @property
+    def balance(self) -> tuple[Literal["debit", "credit"], decimal.Decimal]:
+        balance = decimal.Decimal("0")
+        for item in self.items:
+            if item.type == LedgerEntryItem.Type.DEBIT:
+                balance += item.amount
+            else:
+                balance -= item.amount
+        balance_type = "debit" if balance >= 0 else "credit"
+        return balance_type, abs(balance)
 
 
 class LedgerEntry(Base):

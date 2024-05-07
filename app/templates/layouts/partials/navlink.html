@@ -1,0 +1,6 @@
+{% if request.path == href %}
+<a href="{{ href }}" class="bg-white text-gray-700 rounded-md px-3 py-1.5 text-sm font-medium" aria-current="page">{{ label }}</a>
+{% else %}
+<a href="{{ href }}"
+    class="text-gray-400 hover:bg-gray-100 hover:text-gray-700 rounded-md px-3 py-1.5 text-sm font-medium">{{ label }}</a>
+{% endif %}

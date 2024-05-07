@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div class="w-full h-screen p-2 grid grid-cols-5 gap-x-4">
+<div class="w-full flex-1 min-h-0 p-2 grid grid-cols-5 gap-x-4">
     <div class="col-span-3 overflow-y-scroll">
         {{ render_partial("accounts/partials/account-list.html", accounts=accounts) }}
     </div>

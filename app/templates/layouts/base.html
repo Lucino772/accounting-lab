@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,24 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
     <script src="{{url_for('static', filename='js/htmx.min.js')}}"></script>
 </head>
+
 <body>
-    {% block content %}{% endblock %}
+    <div class="flex flex-col w-full h-screen">
+        <nav class="bg-white shadow-md">
+            <div class="mx-auto max-w-7xl px-2">
+                <div class="relative flex h-12 items-center justify-between">
+                    <div class="flex flex-1 justify-start items-stretch">
+                        <div class="flex space-x-4">
+                            {{ render_partial("layouts/partials/navlink.html", href=url_for('accounts.index'), label="Accounts") }}
+                            {{ render_partial("layouts/partials/navlink.html", href=url_for('ledger.index'), label="Ledger") }}
+                            {{ render_partial("layouts/partials/navlink.html", href=url_for('accounts.taccounts'), label="T-Accounts") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+    </div>
 </body>
+
 </html>
