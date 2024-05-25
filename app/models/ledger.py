@@ -19,10 +19,10 @@ class LedgerAccount(Base):
         EXPENSE = 5
 
     # Columns
-    id: Mapped[intpk]  # noqa: A003
+    id: Mapped[intpk]
     account: Mapped[str] = mapped_column(unique=True)
     label: Mapped[str]
-    type: Mapped[Type]  # noqa: A003
+    type: Mapped[Type]
 
     # Relationships
     items: Mapped[list["LedgerEntryItem"]] = relationship(back_populates="account")
@@ -52,7 +52,7 @@ class LedgerEntry(Base):
     __tablename__ = "ledger_entry"
 
     # Columns
-    id: Mapped[intpk]  # noqa: A003
+    id: Mapped[intpk]
     date: Mapped[datetime_tz]
 
     # Relationships
@@ -71,10 +71,10 @@ class LedgerEntryItem(Base):
         CREDIT = "C"
 
     # Columns
-    id: Mapped[intpk]  # noqa: A003
+    id: Mapped[intpk]
     date: Mapped[datetime_tz]
     account_id: Mapped[int]
-    type: Mapped[Type]  # noqa: A003
+    type: Mapped[Type]
     amount: Mapped[decimal.Decimal]
     entry_id: Mapped[int]
 

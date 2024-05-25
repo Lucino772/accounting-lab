@@ -20,6 +20,10 @@ dependencies = [
 [envs.default.scripts]
 css-watch = "tailwindcss --output ./app/static/css/index.css --watch --minify"
 css-build = "tailwindcss --output ./app/static/css/index.css --minify"
+db-upgrade = "flask -A app.factory db upgrade"
+db-check = "flask -A app.factory db check"
+db-migrate = "flask -A app.factory db migrate"
+dev = "flask -A app.factory run --debug"
 
 [envs.hatch-static-analysis]
 python = "3.11"
