@@ -1,6 +1,5 @@
 import decimal
 import enum
-from typing import Literal
 
 from sqlalchemy import ForeignKeyConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -16,12 +15,37 @@ class LedgerAccount(Base):
         BALANCE_SHEET = 1
         INCOME_STATEMENT = 2
 
+        def __str__(self) -> str:
+            return {
+                self.BALANCE_SHEET: "Balance Sheet",
+                self.INCOME_STATEMENT: "Income Statement",
+            }[self]
+
     class AccountType(enum.Enum):
         ASSET = 1
         LIABILITY = 2
         EQUITY = 3
         REVENUE = 4
         EXPENSE = 5
+
+        def __str__(self) -> str:
+            return {
+                self.ASSET: "Asset",
+                self.LIABILITY: "Liability",
+                self.EQUITY: "Equity",
+                self.REVENUE: "Revenue",
+                self.EXPENSE: "Expense",
+            }[self]
+
+    class AccountBalanceType(enum.Enum):
+        DEBIT_BALANCE = 1
+        CREDIT_BALANCE = 2
+
+        def __str__(self) -> str:
+            return {
+                self.DEBIT_BALANCE: "Debit Balance",
+                self.CREDIT_BALANCE: "Credit Balance",
+            }[self]
 
     # Columns
     account_id: Mapped[intpk]
@@ -34,32 +58,33 @@ class LedgerAccount(Base):
     items: Mapped[list["LedgerEntryItem"]] = relationship(back_populates="account")
 
     @property
-    def class_as_string(self) -> str:
-        return {
-            self.AccountClass.BALANCE_SHEET: "Balance Sheet",
-            self.AccountClass.INCOME_STATEMENT: "Income Statement",
-        }[self.account_class]
+    def account_balance_type(self) -> AccountBalanceType:
+        if self.account_type in [self.AccountType.ASSET, self.AccountType.EXPENSE]:
+            return self.AccountBalanceType.DEBIT_BALANCE
+        return self.AccountBalanceType.CREDIT_BALANCE
 
     @property
-    def type_as_string(self) -> str:
-        return {
-            self.AccountType.ASSET: "Asset",
-            self.AccountType.LIABILITY: "Liability",
-            self.AccountType.EQUITY: "Equity",
-            self.AccountType.REVENUE: "Revenue",
-            self.AccountType.EXPENSE: "Expense",
-        }[self.account_type]
+    def account_balance(self) -> decimal.Decimal:
+        total_debit = sum(
+            [
+                item.amount
+                for item in self.items
+                if item.type == LedgerEntryItem.Type.DEBIT
+            ],
+            start=decimal.Decimal("0"),
+        )
+        total_credit = sum(
+            [
+                item.amount
+                for item in self.items
+                if item.type == LedgerEntryItem.Type.CREDIT
+            ],
+            start=decimal.Decimal("0"),
+        )
 
-    @property
-    def balance(self) -> tuple[Literal["debit", "credit"], decimal.Decimal]:
-        balance = decimal.Decimal("0")
-        for item in self.items:
-            if item.type == LedgerEntryItem.Type.DEBIT:
-                balance += item.amount
-            else:
-                balance -= item.amount
-        balance_type = "debit" if balance >= 0 else "credit"
-        return balance_type, abs(balance)
+        if self.account_balance_type == LedgerAccount.AccountBalanceType.DEBIT_BALANCE:
+            return total_debit - total_credit
+        return total_credit - total_debit
 
 
 class LedgerEntry(Base):

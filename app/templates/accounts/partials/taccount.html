@@ -23,12 +23,12 @@
     </tbody>
     <tfoot>
         <tr class="divide-x border-t-2 text-center">
-            {% if account.balance[0] == "debit" %}
-            <td>{{'%0.2f'|format(account.balance[1]|float)}}</td>
+            {% if account.account_balance_type == "DEBIT_BALANCE" %}
+            <td>{{'%0.2f'|format(account.account_balance|float)}}</td>
             <td></td>
             {% else %}
             <td></td>
-            <td>{{'%0.2f'|format(account.balance[1]|float)}}</td>
+            <td>{{'%0.2f'|format(account.account_balance|float)}}</td>
             {% endif %}
         </tr>
     </tfoot>

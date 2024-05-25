@@ -53,14 +53,10 @@ def index():
 @blueprint.route("/taccounts", methods=["GET"])
 def taccounts():
     def _calculate_balance(accounts: Iterable[LedgerAccount]):
-        _sum = decimal.Decimal("0")
-        for account in accounts:
-            _type, balance = account.balance
-            if _type == "debit":
-                _sum += balance
-            else:
-                _sum -= balance
-        return _sum
+        return sum(
+            [account.account_balance for account in accounts],
+            start=decimal.Decimal("0"),
+        )
 
     asset_accounts = db.session.scalars(
         sa.select(LedgerAccount)

@@ -10,9 +10,7 @@ from app.services.statement import StatementEntry
 blueprint = Blueprint("statement", __name__)
 
 
-def _add_statement_entry(
-    root: StatementEntry, name: str, prefixes: Iterable[str], *, invert: bool = False
-):
+def _add_statement_entry(root: StatementEntry, name: str, prefixes: Iterable[str]):
     entry = root.add_entry(name)
     for account in db.session.scalars(
         sa.select(LedgerAccount).where(
@@ -22,12 +20,7 @@ def _add_statement_entry(
             )
         )
     ):
-        _type, amount = account.balance
-        _check = "credit" if invert else "debit"
-        if _type == _check:
-            entry.update_balance(amount)
-        else:
-            entry.update_balance(-amount)
+        entry.update_balance(account.account_balance)
 
 
 @blueprint.route("/", methods=["GET"])
@@ -53,20 +46,20 @@ def index():
 
     # Passif
     capital = liabilities.add_entry("Capitaux Propres")
-    _add_statement_entry(capital, "APP", ["11"], invert=True)
-    _add_statement_entry(capital, "PVR", ["12"], invert=True)
-    _add_statement_entry(capital, "RES", ["13"], invert=True)
-    _add_statement_entry(capital, "REP", ["14"], invert=True)
-    _add_statement_entry(capital, "REP", ["15"], invert=True)
-    _add_statement_entry(liabilities, "PROV", ["16"], invert=True)
-    _add_statement_entry(liabilities, "DETTES LT", ["17"], invert=True)
+    _add_statement_entry(capital, "APP", ["11"])
+    _add_statement_entry(capital, "PVR", ["12"])
+    _add_statement_entry(capital, "RES", ["13"])
+    _add_statement_entry(capital, "REP", ["14"])
+    _add_statement_entry(capital, "REP", ["15"])
+    _add_statement_entry(liabilities, "PROV", ["16"])
+    _add_statement_entry(liabilities, "DETTES LT", ["17"])
     liabilities_ct = liabilities.add_entry("DETTES CT")
-    _add_statement_entry(liabilities_ct, "DFinEch", ["42"], invert=True)
-    _add_statement_entry(liabilities_ct, "DFinCT", ["43"], invert=True)
-    _add_statement_entry(liabilities_ct, "DComCT", ["44"], invert=True)
-    _add_statement_entry(liabilities_ct, "Acomptes", ["46"], invert=True)
-    _add_statement_entry(liabilities_ct, "DFSS", ["45"], invert=True)
-    _add_statement_entry(liabilities_ct, "DAutresCT", ["48"], invert=True)
+    _add_statement_entry(liabilities_ct, "DFinEch", ["42"])
+    _add_statement_entry(liabilities_ct, "DFinCT", ["43"])
+    _add_statement_entry(liabilities_ct, "DComCT", ["44"])
+    _add_statement_entry(liabilities_ct, "Acomptes", ["46"])
+    _add_statement_entry(liabilities_ct, "DFSS", ["45"])
+    _add_statement_entry(liabilities_ct, "DAutresCT", ["48"])
     # TODO: Compte Regularisation Passif
 
     # Charges
@@ -82,11 +75,11 @@ def index():
 
     # Produits
     pr_expl = revenue.add_entry("PrExp")
-    _add_statement_entry(pr_expl, "Chiffres d'affaires", ["70", "71"], invert=True)
-    _add_statement_entry(pr_expl, "Prod. immobilisee", ["72"], invert=True)
-    _add_statement_entry(pr_expl, "Autres produits d'exploitation", ["74"], invert=True)
+    _add_statement_entry(pr_expl, "Chiffres d'affaires", ["70", "71"])
+    _add_statement_entry(pr_expl, "Prod. immobilisee", ["72"])
+    _add_statement_entry(pr_expl, "Autres produits d'exploitation", ["74"])
     pr_fin = revenue.add_entry("PrFin")
-    _add_statement_entry(pr_fin, "Produits financiers recurrents", ["75"], invert=True)
+    _add_statement_entry(pr_fin, "Produits financiers recurrents", ["75"])
 
     return render_template(
         "financial_statement/index.html",
