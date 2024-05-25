@@ -25,6 +25,7 @@ class AddLedgerAccountForm(FlaskForm):
         choices=[
             ("ASSET", "Asset (1)"),
             ("LIABILITY", "Liability (2)"),
+            ("EQUITY", "Equity (3)"),
             ("REVENUE", "Revenue (4)"),
             ("EXPENSE", "Expense (5)"),
         ],
@@ -103,6 +104,7 @@ def htmx_add_account():
             type={
                 "ASSET": LedgerAccount.Type.ASSET,
                 "LIABILITY": LedgerAccount.Type.LIABILITY,
+                "EQUITY": LedgerAccount.Type.EQUITY,
                 "REVENUE": LedgerAccount.Type.REVENUE,
                 "EXPENSE": LedgerAccount.Type.EXPENSE,
             }[form.type_.data],

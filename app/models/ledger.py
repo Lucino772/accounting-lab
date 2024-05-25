@@ -15,6 +15,7 @@ class LedgerAccount(Base):
     class Type(enum.Enum):
         ASSET = 1
         LIABILITY = 2
+        EQUITY = 3
         REVENUE = 4
         EXPENSE = 5
 
@@ -32,6 +33,7 @@ class LedgerAccount(Base):
         return {
             self.Type.ASSET: "Asset",
             self.Type.LIABILITY: "Liability",
+            self.Type.EQUITY: "Equity",
             self.Type.REVENUE: "Revenue",
             self.Type.EXPENSE: "Expense",
         }[self.type]
