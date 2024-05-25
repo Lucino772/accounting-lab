@@ -5,6 +5,7 @@ from flask import Flask
 
 from app.controllers.accounts import blueprint as accounts_blueprint
 from app.controllers.ledger import blueprint as ledger_blueprint
+from app.controllers.statement import blueprint as statement_blueprint
 from app.extensions import db, htmx, migrate
 
 
@@ -24,5 +25,6 @@ def create_app():
     # Register Blueprints
     app.register_blueprint(ledger_blueprint, url_prefix="/ledger")
     app.register_blueprint(accounts_blueprint, url_prefix="/accounts")
+    app.register_blueprint(statement_blueprint, url_prefix="/statement")
 
     return app
