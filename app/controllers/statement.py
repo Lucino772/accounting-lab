@@ -18,7 +18,7 @@ def _add_statement_entry(
         sa.select(LedgerAccount).where(
             sa.or_(
                 sa.false(),
-                *[LedgerAccount.account.startswith(prefix) for prefix in prefixes],
+                *[LedgerAccount.account_name.startswith(prefix) for prefix in prefixes],
             )
         )
     ):

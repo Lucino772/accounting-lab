@@ -38,10 +38,10 @@ class AddLedgerEntryForm(FlaskForm):
 
 def _prepare_form(form: AddLedgerEntryForm):
     accounts = db.session.scalars(
-        sa.select(LedgerAccount).order_by(LedgerAccount.account)
+        sa.select(LedgerAccount).order_by(LedgerAccount.account_name)
     ).all()
     choices = [
-        (str(account.id), f"{account.account} - {account.label}")
+        (str(account.account_id), f"{account.account_name} - {account.account_label}")
         for account in accounts
     ]
     for item in form.items:

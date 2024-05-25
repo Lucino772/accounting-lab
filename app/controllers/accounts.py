@@ -18,9 +18,17 @@ blueprint = Blueprint("accounts", __name__)
 
 
 class AddLedgerAccountForm(FlaskForm):
-    account = StringField("Account", validators=[DataRequired()])
-    label = StringField("Label", validators=[DataRequired()])
-    type_ = SelectField(
+    account_name = StringField("Account", validators=[DataRequired()])
+    account_label = StringField("Label", validators=[DataRequired()])
+    account_class = SelectField(
+        "Class",
+        choices=[
+            ("BALANCE_SHEET", "Balance Sheet (1)"),
+            ("INCOME_STATEMENT", "Income Statement (2)"),
+        ],
+        validators=[DataRequired()],
+    )
+    account_type = SelectField(
         "Type",
         choices=[
             ("ASSET", "Asset (1)"),
@@ -37,7 +45,7 @@ class AddLedgerAccountForm(FlaskForm):
 def index():
     form = AddLedgerAccountForm()
     accounts = db.session.scalars(
-        sa.select(LedgerAccount).order_by(LedgerAccount.account)
+        sa.select(LedgerAccount).order_by(LedgerAccount.account_name)
     ).all()
     return render_template("accounts/index.html", accounts=accounts, form=form)
 
@@ -56,26 +64,31 @@ def taccounts():
 
     asset_accounts = db.session.scalars(
         sa.select(LedgerAccount)
-        .order_by(LedgerAccount.account)
-        .where(LedgerAccount.type == LedgerAccount.Type.ASSET)
+        .order_by(LedgerAccount.account_name)
+        .where(LedgerAccount.account_type == LedgerAccount.AccountType.ASSET)
     ).all()
     asset_balance = _calculate_balance(asset_accounts)
     liability_accounts = db.session.scalars(
         sa.select(LedgerAccount)
-        .order_by(LedgerAccount.account)
-        .where(LedgerAccount.type == LedgerAccount.Type.LIABILITY)
+        .order_by(LedgerAccount.account_name)
+        .where(
+            sa.or_(
+                LedgerAccount.account_type == LedgerAccount.AccountType.LIABILITY,
+                LedgerAccount.account_type == LedgerAccount.AccountType.EQUITY,
+            )
+        )
     ).all()
     liability_balance = _calculate_balance(liability_accounts)
     expense_accounts = db.session.scalars(
         sa.select(LedgerAccount)
-        .order_by(LedgerAccount.account)
-        .where(LedgerAccount.type == LedgerAccount.Type.EXPENSE)
+        .order_by(LedgerAccount.account_name)
+        .where(LedgerAccount.account_type == LedgerAccount.AccountType.EXPENSE)
     ).all()
     expense_balance = _calculate_balance(expense_accounts)
     revenue_accounts = db.session.scalars(
         sa.select(LedgerAccount)
-        .order_by(LedgerAccount.account)
-        .where(LedgerAccount.type == LedgerAccount.Type.REVENUE)
+        .order_by(LedgerAccount.account_name)
+        .where(LedgerAccount.account_type == LedgerAccount.AccountType.REVENUE)
     ).all()
     revenue_balance = _calculate_balance(revenue_accounts)
     return render_template(
@@ -99,20 +112,24 @@ def htmx_add_account():
     form = AddLedgerAccountForm()
     if form.validate_on_submit():
         account = LedgerAccount(
-            account=form.account.data,
-            label=form.label.data,
-            type={
-                "ASSET": LedgerAccount.Type.ASSET,
-                "LIABILITY": LedgerAccount.Type.LIABILITY,
-                "EQUITY": LedgerAccount.Type.EQUITY,
-                "REVENUE": LedgerAccount.Type.REVENUE,
-                "EXPENSE": LedgerAccount.Type.EXPENSE,
-            }[form.type_.data],
+            account_name=form.account_name.data,
+            account_label=form.account_label.data,
+            account_class={
+                "BALANCE_SHEET": LedgerAccount.AccountClass.BALANCE_SHEET,
+                "INCOME_STATEMENT": LedgerAccount.AccountClass.INCOME_STATEMENT,
+            }[form.account_class.data],
+            account_type={
+                "ASSET": LedgerAccount.AccountType.ASSET,
+                "LIABILITY": LedgerAccount.AccountType.LIABILITY,
+                "EQUITY": LedgerAccount.AccountType.EQUITY,
+                "REVENUE": LedgerAccount.AccountType.REVENUE,
+                "EXPENSE": LedgerAccount.AccountType.EXPENSE,
+            }[form.account_type.data],
         )
         db.session.add(account)
         db.session.commit()
 
     accounts = db.session.scalars(
-        sa.select(LedgerAccount).order_by(LedgerAccount.account)
+        sa.select(LedgerAccount).order_by(LedgerAccount.account_name)
     ).all()
     return render_template("accounts/partials/account-list.html", accounts=accounts)

@@ -12,7 +12,11 @@ from app.models.types import datetime_tz, intpk
 class LedgerAccount(Base):
     __tablename__ = "ledger_account"
 
-    class Type(enum.Enum):
+    class AccountClass(enum.Enum):
+        BALANCE_SHEET = 1
+        INCOME_STATEMENT = 2
+
+    class AccountType(enum.Enum):
         ASSET = 1
         LIABILITY = 2
         EQUITY = 3
@@ -20,23 +24,31 @@ class LedgerAccount(Base):
         EXPENSE = 5
 
     # Columns
-    id: Mapped[intpk]
-    account: Mapped[str] = mapped_column(unique=True)
-    label: Mapped[str]
-    type: Mapped[Type]
+    account_id: Mapped[intpk]
+    account_name: Mapped[str] = mapped_column(unique=True)
+    account_label: Mapped[str]
+    account_class: Mapped[AccountClass]
+    account_type: Mapped[AccountType]
 
     # Relationships
     items: Mapped[list["LedgerEntryItem"]] = relationship(back_populates="account")
 
     @property
+    def class_as_string(self) -> str:
+        return {
+            self.AccountClass.BALANCE_SHEET: "Balance Sheet",
+            self.AccountClass.INCOME_STATEMENT: "Income Statement",
+        }[self.account_class]
+
+    @property
     def type_as_string(self) -> str:
         return {
-            self.Type.ASSET: "Asset",
-            self.Type.LIABILITY: "Liability",
-            self.Type.EQUITY: "Equity",
-            self.Type.REVENUE: "Revenue",
-            self.Type.EXPENSE: "Expense",
-        }[self.type]
+            self.AccountType.ASSET: "Asset",
+            self.AccountType.LIABILITY: "Liability",
+            self.AccountType.EQUITY: "Equity",
+            self.AccountType.REVENUE: "Revenue",
+            self.AccountType.EXPENSE: "Expense",
+        }[self.account_type]
 
     @property
     def balance(self) -> tuple[Literal["debit", "credit"], decimal.Decimal]:
@@ -64,7 +76,7 @@ class LedgerEntry(Base):
 class LedgerEntryItem(Base):
     __tablename__ = "ledger_entry_item"
     __table_args__ = (
-        ForeignKeyConstraint(["account_id"], [LedgerAccount.id]),
+        ForeignKeyConstraint(["account_id"], [LedgerAccount.account_id]),
         ForeignKeyConstraint(["entry_id"], [LedgerEntry.id]),
     )
 
