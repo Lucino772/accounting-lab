@@ -8,6 +8,7 @@
 # - flask-migrate==4.0.7
 # - pytailwindcss==0.2.0
 # - flask-wtf==1.2.1
+# - djlint==1.34.1
 #
 
 alembic==1.13.1
@@ -15,31 +16,61 @@ alembic==1.13.1
 blinker==1.8.1
     # via flask
 click==8.1.7
-    # via flask
+    # via
+    #   djlint
+    #   flask
 colorama==0.4.6
-    # via click
+    # via
+    #   click
+    #   djlint
+    #   tqdm
+cssbeautifier==1.15.1
+    # via djlint
+djlint==1.34.1
+    # via hatch.envs.default
+editorconfig==0.12.4
+    # via
+    #   cssbeautifier
+    #   jsbeautifier
 flask==3.0.3
     # via
+    #   hatch.envs.default
     #   flask-htmx
     #   flask-migrate
     #   flask-sqlalchemy
     #   flask-wtf
 flask-htmx==0.3.2
+    # via hatch.envs.default
 flask-migrate==4.0.7
+    # via hatch.envs.default
 flask-sqlalchemy==3.1.1
-    # via flask-migrate
+    # via
+    #   hatch.envs.default
+    #   flask-migrate
 flask-wtf==1.2.1
+    # via hatch.envs.default
 greenlet==3.0.3
     # via sqlalchemy
+html-tag-names==0.1.2
+    # via djlint
+html-void-elements==0.1.0
+    # via djlint
 itsdangerous==2.2.0
     # via
     #   flask
     #   flask-wtf
 jinja-partials==0.1.1
+    # via hatch.envs.default
 jinja2==3.1.3
     # via
     #   flask
     #   jinja-partials
+jsbeautifier==1.15.1
+    # via
+    #   cssbeautifier
+    #   djlint
+json5==0.9.25
+    # via djlint
 mako==1.3.3
     # via alembic
 markupsafe==2.1.5
@@ -48,11 +79,24 @@ markupsafe==2.1.5
     #   mako
     #   werkzeug
     #   wtforms
+pathspec==0.12.1
+    # via djlint
 pytailwindcss==0.2.0
+    # via hatch.envs.default
+pyyaml==6.0.1
+    # via djlint
+regex==2023.12.25
+    # via djlint
+six==1.16.0
+    # via
+    #   cssbeautifier
+    #   jsbeautifier
 sqlalchemy==2.0.29
     # via
     #   alembic
     #   flask-sqlalchemy
+tqdm==4.66.4
+    # via djlint
 typing-extensions==4.11.0
     # via
     #   alembic

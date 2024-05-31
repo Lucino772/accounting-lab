@@ -1,53 +1,56 @@
 {% extends 'layouts/base.html' %}
-
 {% block content %}
-<div class="w-full flex-1 min-h-0 p-2 grid grid-cols-5 gap-x-4">
-    <div class="col-span-3 overflow-y-scroll">
-        {{ render_partial("accounts/partials/account-list.html", accounts=accounts) }}
-    </div>
-    <div class="col-span-2 flex flex-col min-h-0">
-        <form hx-post="{{ url_for('accounts.htmx_add_account') }}" hx-target="#account-list" hx-swap="outerHTML"
-            class="flex-1 flex flex-col min-h-0">
-            {{ form.hidden_tag() }}
-            <div class="flex-1 min-h-0 overflow-y-scroll">
-                <div class="grid grid-cols-6 gap-x-2 gap-y-2">
-                    <div class="col-span-6">
-                        {{ form.account_name.label(class="block text-sm font-medium leading-6 text-gray-900") }}
-                        <div class="mt-2">
-                            {{ form.account_name(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
-                            ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
-                            focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+    <div class="w-full flex-1 min-h-0 p-2 grid grid-cols-5 gap-x-4">
+        <div class="col-span-3 overflow-y-scroll">
+            {{ render_partial("accounts/partials/account-list.html", accounts=accounts) }}
+        </div>
+        <div class="col-span-2 flex flex-col min-h-0">
+            <form hx-post="{{ url_for("accounts.htmx_add_account") }}"
+                  hx-target="#account-list"
+                  hx-swap="outerHTML"
+                  class="flex-1 flex flex-col min-h-0">
+                {{ form.hidden_tag() }}
+                <div class="flex-1 min-h-0 overflow-y-scroll">
+                    <div class="grid grid-cols-6 gap-x-2 gap-y-2">
+                        <div class="col-span-6">
+                            {{ form.account_name.label(class="block text-sm font-medium leading-6 text-gray-900") }}
+                            <div class="mt-2">
+                                {{ form.account_name(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                                                ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+                                                                focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-span-6">
-                        {{ form.account_label.label(class="block text-sm font-medium leading-6 text-gray-900") }}
-                        <div class="mt-2">
-                            {{ form.account_label(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
-                            ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
-                            focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                        <div class="col-span-6">
+                            {{ form.account_label.label(class="block text-sm font-medium leading-6 text-gray-900") }}
+                            <div class="mt-2">
+                                {{ form.account_label(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
+                                                                ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+                                                                focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-span-6">
-                        {{ form.account_class.label(class="block text-sm font-medium leading-6 text-gray-900") }}
-                        <div class="mt-2">
-                            {{ form.account_class(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
-                            ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                        <div class="col-span-6">
+                            {{ form.account_class.label(class="block text-sm font-medium leading-6 text-gray-900") }}
+                            <div class="mt-2">
+                                {{ form.account_class(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
+                                                                ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-span-6">
-                        {{ form.account_type.label(class="block text-sm font-medium leading-6 text-gray-900") }}
-                        <div class="mt-2">
-                            {{ form.account_type(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
-                            ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                        <div class="col-span-6">
+                            {{ form.account_type.label(class="block text-sm font-medium leading-6 text-gray-900") }}
+                            <div class="mt-2">
+                                {{ form.account_type(class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
+                                                                ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6") }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-2 flex-none">
-                <button type="submit"
-                    class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
-            </div>
-        </form>
+                <div class="mt-2 flex-none">
+                    <button type="submit"
+                            class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}

@@ -1,4 +1,5 @@
-<table id="account-list" class="table-auto w-full bg-white divide-y divide-gray-300">
+<table id="account-list"
+       class="table-auto w-full bg-white divide-y divide-gray-300">
     <thead>
         <tr>
             <th scope="col" class="font-semibold text-sm text-left pr-3 pl-4 py-3.5">Account</th>
@@ -9,12 +10,12 @@
     </thead>
     <tbody class="divide-y divide-gray-300">
         {% for account in accounts %}
-        <tr>
-            <td class="text-gray-900 font-medium text-sm pr-3 pl-4 py-2 whitespace-nowrap">{{ account.account_name }}</td>
-            <td class="text-gray-900 font-medium text-sm pr-3 pl-4 py-2 whitespace-nowrap">{{ account.account_label }}</td>
-            <td class="text-gray-500 font-medium text-sm px-3 whitespace-nowrap">{{ account.account_class }}</td>
-            <td class="text-gray-500 font-medium text-sm px-3 whitespace-nowrap">{{ account.account_type }}</td>
-        </tr>
+            <tr>
+                <td class="text-gray-900 font-medium text-sm pr-3 pl-4 py-2 whitespace-nowrap">{{ account.account_name }}</td>
+                <td class="text-gray-900 font-medium text-sm pr-3 pl-4 py-2 whitespace-nowrap">{{ account.account_label }}</td>
+                <td class="text-gray-500 font-medium text-sm px-3 whitespace-nowrap">{{ account.account_class }}</td>
+                <td class="text-gray-500 font-medium text-sm px-3 whitespace-nowrap">{{ account.account_type }}</td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>

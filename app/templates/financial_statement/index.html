@@ -1,30 +1,27 @@
 {% extends 'layouts/base.html' %}
-
 {% block content %}
-<div class="w-full flex-1 min-h-0 p-4 overflow-auto flex flex-col gap-y-4">
-    <div class="flex flex-col border-2">
-        <div class="text-center font-bold border-b-2 py-1">BILAN</div>
-        <div class="flex-1 flex flex-row items-start">
-            <div class="w-1/2 grid grid-cols-2 gap-x-4">
-                {{ render_partial("financial_statement/partials/entries.html", root=assets, invert=false) }}
+    <div class="w-full flex-1 min-h-0 p-4 overflow-auto flex flex-col gap-y-4">
+        <div class="flex flex-col border-2">
+            <div class="text-center font-bold border-b-2 py-1">BILAN</div>
+            <div class="flex-1 flex flex-row items-start">
+                <div class="w-1/2 grid grid-cols-2 gap-x-4">
+                    {{ render_partial("financial_statement/partials/entries.html", root=assets, invert=false) }}
+                </div>
+                <div class="w-1/2 grid grid-cols-2 gap-x-4">
+                    {{ render_partial("financial_statement/partials/entries.html", root=liabilities, invert=true) }}
+                </div>
             </div>
-            <div class="w-1/2 grid grid-cols-2 gap-x-4">
-                {{ render_partial("financial_statement/partials/entries.html", root=liabilities, invert=true) }}
+        </div>
+        <div class="flex flex-col border-2">
+            <div class="text-center font-bold border-b-2 py-1">COMPTE DE RESULTATS</div>
+            <div class="flex-1 flex flex-row items-start">
+                <div class="w-1/2 grid grid-cols-2 gap-x-4">
+                    {{ render_partial("financial_statement/partials/entries.html", root=expenses, invert=false) }}
+                </div>
+                <div class="w-1/2 grid grid-cols-2 gap-x-4">
+                    {{ render_partial("financial_statement/partials/entries.html", root=revenue, invert=true) }}
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="flex flex-col border-2">
-        <div class="text-center font-bold border-b-2 py-1">COMPTE DE RESULTATS</div>
-        <div class="flex-1 flex flex-row items-start">
-            <div class="w-1/2 grid grid-cols-2 gap-x-4">
-                {{ render_partial("financial_statement/partials/entries.html", root=expenses, invert=false) }}
-            </div>
-            <div class="w-1/2 grid grid-cols-2 gap-x-4">
-                {{ render_partial("financial_statement/partials/entries.html", root=revenue, invert=true) }}
-            </div>
-        </div>
-    </div>
-
-</div>
 {% endblock %}

@@ -1,41 +1,37 @@
 {% if invert is false %}
-
-<div class="col-span-2 grid grid-cols-3 border-b py-0.5">
-    <div class="font-bold text-right pl-4">{{ '%0.2f'|format(root.balance|float) }}</div>
-    <div class="col-span-2 font-bold uppercase text-center">{{ root.name }}</div>
-</div>
-{% for sub in root.entries %}
-<div class="col-span-2 grid grid-cols-3">
-    <div class="underline text-right pl-4">{{ '%0.2f'|format(sub.balance|float) }}</div>
-    <div class="col-span-2 underline uppercase text-center">{{ sub.name }}</div>
-</div>
-{% for subsub in sub.entries %}
-<div class="col-span-2 grid grid-cols-3">
-    <div class="text-right pl-4">{{ '%0.2f'|format(subsub.balance|float) }}</div>
-    <div class="col-span-2 text-center">{{ subsub.name }}</div>
-</div>
-{% endfor %}
-<div class="col-span-2 opacity-0">.</div>
-{% endfor %}
-
+    <div class="col-span-2 grid grid-cols-3 border-b py-0.5">
+        <div class="font-bold text-right pl-4">{{ '%0.2f'|format(root.balance|float) }}</div>
+        <div class="col-span-2 font-bold uppercase text-center">{{ root.name }}</div>
+    </div>
+    {% for sub in root.entries %}
+        <div class="col-span-2 grid grid-cols-3">
+            <div class="underline text-right pl-4">{{ '%0.2f'|format(sub.balance|float) }}</div>
+            <div class="col-span-2 underline uppercase text-center">{{ sub.name }}</div>
+        </div>
+        {% for subsub in sub.entries %}
+            <div class="col-span-2 grid grid-cols-3">
+                <div class="text-right pl-4">{{ '%0.2f'|format(subsub.balance|float) }}</div>
+                <div class="col-span-2 text-center">{{ subsub.name }}</div>
+            </div>
+        {% endfor %}
+        <div class="col-span-2 opacity-0">.</div>
+    {% endfor %}
 {% else %}
-
-<div class="col-span-2 grid grid-cols-3 border-b py-0.5">
-    <div class="col-span-2 font-bold uppercase text-center">{{ root.name }}</div>
-    <div class="font-bold text-right pr-4">{{ '%0.2f'|format(root.balance|float) }}</div>
-</div>
-{% for sub in root.entries %}
-<div class="col-span-2 grid grid-cols-3">
-    <div class="col-span-2 underline uppercase text-center">{{ sub.name }}</div>
-    <div class="underline text-right pr-4">{{ '%0.2f'|format(sub.balance|float) }}</div>
-</div>
-{% for subsub in sub.entries %}
-<div class="col-span-2 grid grid-cols-3">
-    <div class="col-span-2 text-center">{{ subsub.name }}</div>
-    <div class="text-right pr-4">{{ '%0.2f'|format(subsub.balance|float) }}</div>
-</div>
-{% endfor %}
-<div class="col-span-2 opacity-0">.</div>
-{% endfor %}
-
+    <div class="col-span-2 grid grid-cols-3 border-b py-0.5">
+        <div class="col-span-2 font-bold uppercase text-center">{{ root.name }}</div>
+        <div class="font-bold text-right pr-4">{{ '%0.2f'|format(root.balance|float) }}</div>
+    </div>
+    {% for sub in root.entries %}
+        <div class="col-span-2 grid grid-cols-3">
+            <div class="col-span-2 underline uppercase text-center">{{ sub.name }}</div>
+            <div class="underline text-right pr-4">{{ '%0.2f'|format(sub.balance|float) }}</div>
+        </div>
+        {% for subsub in sub.entries %}
+            <div class="col-span-2 grid grid-cols-3">
+                <div class="col-span-2 text-center">{{ subsub.name }}</div>
+                <div class="text-right pr-4">{{ '%0.2f'|format(subsub.balance|float) }}</div>
+            </div>
+        {% endfor %}
+        <div class="col-span-2 opacity-0">.</div>
+    {% endfor %}
 {% endif %}

@@ -10,25 +10,25 @@
     </thead>
     <tbody>
         {% for item in account.items %}
-        <tr class="divide-x text-center">
-            {% if item.is_debit %}
-            <td>{{'%0.2f'|format(item.amount|float)}}</td>
-            <td></td>
-            {% else %}
-            <td></td>
-            <td>{{'%0.2f'|format(item.amount|float)}}</td>
-            {% endif %}
-        </tr>
+            <tr class="divide-x text-center">
+                {% if item.is_debit %}
+                    <td>{{ '%0.2f'|format(item.amount|float) }}</td>
+                    <td></td>
+                {% else %}
+                    <td></td>
+                    <td>{{ '%0.2f'|format(item.amount|float) }}</td>
+                {% endif %}
+            </tr>
         {% endfor %}
     </tbody>
     <tfoot>
         <tr class="divide-x border-t-2 text-center">
             {% if account.account_balance_type == "DEBIT_BALANCE" %}
-            <td>{{'%0.2f'|format(account.account_balance|float)}}</td>
-            <td></td>
+                <td>{{ '%0.2f'|format(account.account_balance|float) }}</td>
+                <td></td>
             {% else %}
-            <td></td>
-            <td>{{'%0.2f'|format(account.account_balance|float)}}</td>
+                <td></td>
+                <td>{{ '%0.2f'|format(account.account_balance|float) }}</td>
             {% endif %}
         </tr>
     </tfoot>
