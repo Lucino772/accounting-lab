@@ -2,12 +2,28 @@ from collections.abc import Iterable
 
 import sqlalchemy as sa
 from flask import Blueprint, render_template
+from flask_wtf import FlaskForm
+from wtforms import (
+    SelectField,
+    StringField,
+)
+from wtforms.validators import DataRequired
 
 from app.extensions import db
 from app.models.ledger import LedgerAccount
 from app.services.statement import StatementEntry
 
 blueprint = Blueprint("statement", __name__)
+
+
+class AddStatementConfigEntry(FlaskForm):
+    type_ = SelectField(
+        "Type",
+        choices=[("group", "Group"), ("entry", "Entry")],
+        validators=[DataRequired()],
+    )
+    value = StringField("Value", validators=[DataRequired()])
+    parent = StringField("Parent", validators=[DataRequired()])
 
 
 def _add_statement_entry(root: StatementEntry, name: str, prefixes: Iterable[str]):
@@ -88,3 +104,75 @@ def index():
         expenses=expenses,
         revenue=revenue,
     )
+
+
+@blueprint.route("/edit")
+def edit():
+    form = AddStatementConfigEntry()
+    data = [
+        {
+            "name": "FIXED ASSETS",
+            "type": "group",
+            "children": [
+                {
+                    "name": "Intangible assets",
+                    "type": "group",
+                    "children": [
+                        {"name": "entry_001", "type": "entry"},
+                        {"name": "entry_002", "type": "entry"},
+                        {"name": "entry_003", "type": "entry"},
+                        {
+                            "name": "subfolder",
+                            "type": "group",
+                            "children": [
+                                {
+                                    "name": "Intangible assets",
+                                    "type": "group",
+                                    "children": [
+                                        {"name": "entry_001", "type": "entry"},
+                                        {"name": "entry_002", "type": "entry"},
+                                        {"name": "entry_003", "type": "entry"},
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "name": "Tangible assets",
+                    "type": "group",
+                    "children": [
+                        {"name": "entry_001", "type": "entry"},
+                        {"name": "entry_002", "type": "entry"},
+                        {"name": "entry_003", "type": "entry"},
+                    ],
+                },
+            ],
+        },
+        {
+            "name": "CURRENT ASSETS",
+            "type": "group",
+            "children": [
+                {
+                    "name": "STOCKS AND CONTRACTS IN PROGRESS",
+                    "type": "group",
+                    "children": [
+                        {"name": "entry_001", "type": "entry"},
+                        {"name": "entry_002", "type": "entry"},
+                        {"name": "entry_003", "type": "entry"},
+                    ],
+                },
+                {
+                    "name": "CURRENT INVESTMENTS",
+                    "type": "group",
+                    "children": [
+                        {"name": "entry_001", "type": "entry"},
+                        {"name": "entry_002", "type": "entry"},
+                        {"name": "entry_003", "type": "entry"},
+                    ],
+                },
+            ],
+        },
+    ]
+
+    return render_template("financial_statement/folders.html", form=form, data=data)

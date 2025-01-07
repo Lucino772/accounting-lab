@@ -1,0 +1,30 @@
+{% if item.type == "group" %}
+<li x-data="{ expanded: true, menu: false }" class="pl-4 py-0.5">
+    <div class="flex items-center justify-between select-none hover:cursor-pointer">
+        <span @click="expanded = !expanded" class="flex items-center">
+            <svg x-show="!expanded" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+            <svg x-show="expanded" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+            {{ item.name }}
+        </span>
+        <button x-ref="toggle" @click="menu = !menu" class="mr-10 px-0.5 py-0.5 rounded-sm shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        </button>
+    </div>
+    <ul x-show="expanded" x-collapse>
+        {% for child in item.children %}
+        {{ render_partial("financial_statement/partials/folder.html", item=child) }}
+        {% endfor %}
+    </ul>
+    <div x-show="menu" @click.away="menu=false" x-anchor.offset.5="$refs.toggle" class="border rounded-md bg-white px-2 py-0.5 flex justify-center items-center flex-col">
+        <button>Add Group</button>
+        <button>Add Account</button>
+    </div>
+</li>
+{% else %}
+<li class="pl-4 py-0.5">
+    <span class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+        {{ item.name }}
+    </span>
+</li>
+{% endif %}
