@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
+  "packages": [
+    "python@3.11",
+    "uv@0.5.14"
+  ],
+  "env": {
+    "UV_PYTHON": "$VENV_DIR/bin/python"
+  },
+  "shell": {
+    "init_hook": [
+      ". $VENV_DIR/bin/activate",
+      "uv sync --all-groups"
+    ],
+    "scripts": {
+      "css-watch": "tailwindcss --output ./app/static/css/index.css --watch --minify",
+      "css-build": "tailwindcss --output ./app/static/css/index.css --minify",
+      "db-upgrade": "flask -A app.factory db upgrade",
+      "db-check": "flask -A app.factory db check",
+      "db-migrate": "flask -A app.factory db migrate",
+      "dev": "flask -A app.factory run --debug",
+      "j2-format": "djlint ./app/templates --reformat"
+    }
+  }
+}
