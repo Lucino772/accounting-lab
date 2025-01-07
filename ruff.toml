@@ -1,8 +1,0 @@
-extend = "ruff_defaults.toml"
-line-length = 88
-indent-width = 4
-target-version = "py311"
-extend-exclude = [ "migrations/**.py" ]
-
-[lint.isort]
-known-first-party = ["app"]
